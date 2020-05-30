@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 enum PointTypes {
   ONES,
@@ -22,6 +22,7 @@ enum PointTypes {
   TOTAL
 }
 
+@immutable
 class PointValue extends Equatable {
   final PointTypes type;
   final int value;

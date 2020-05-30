@@ -11,21 +11,44 @@ class ButtonProps {
 class CircularButton extends StatelessWidget {
   final ButtonClickCallback onPressed;
   final Color backgroundColor;
-  final Color iconColor;
-  final Icon icon;
+  final Color color;
+  final IconData icon;
+  final String text;
+  final Color disabledColor;
 
-  CircularButton(
+  CircularButton.icon(
       {@required this.onPressed,
       @required this.icon,
       this.backgroundColor = Colors.blue,
-      this.iconColor = Colors.white});
+      this.color = Colors.white,
+      this.text = '',
+      this.disabledColor = Colors.grey});
+  CircularButton.text(
+      {@required this.onPressed,
+      @required this.text,
+      this.backgroundColor = Colors.blue,
+      this.color = Colors.white,
+      this.icon,
+      this.disabledColor = Colors.grey});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: backgroundColor, borderRadius: BorderRadius.circular(50)),
-      child: IconButton(icon: icon, color: iconColor, onPressed: onPressed),
-    );
+    return GestureDetector(
+        onTap: onPressed,
+        child: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.circular(50)),
+            child: Center(
+                child: this.icon != null
+                    ? Icon(icon,
+                        color: this.onPressed != null ? color : disabledColor)
+                    : Text(text,
+                        style: TextStyle(
+                            color: this.onPressed != null
+                                ? color
+                                : disabledColor)))));
   }
 }

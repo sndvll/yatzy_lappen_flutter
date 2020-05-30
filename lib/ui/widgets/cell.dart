@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yatzy_lappen/model/models.dart';
-import 'package:yatzy_lappen/ui/utils/border_creator.dart';
+
+import '../../model/models.dart';
+import '../utils/border_creator.dart';
 
 typedef void OnCellClick(PointTypes type);
 

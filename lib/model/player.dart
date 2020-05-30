@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
+
 import 'points.dart';
 
 @immutable
@@ -77,76 +78,88 @@ class Player extends Equatable {
         yatzy: yatzy ?? this.yatzy);
   }
 
-  PointValue get topSum {
-    int sum = [
-      this.ones,
-      this.twos,
-      this.threes,
-      this.fours,
-      this.fives,
-      this.sixes
-    ].fold(0, (acc, pointValue) => acc + pointValue.value);
-    return PointValue(type: PointTypes.TOP_SUM, value: sum);
-  }
+  PointValue get topSum => [
+        this.ones,
+        this.twos,
+        this.threes,
+        this.fours,
+        this.fives,
+        this.sixes
+      ].reduce((acc, current) => PointValue(
+          type: PointTypes.TOP_SUM, value: acc.value + current.value));
 
   PointValue get bonus {
+    bool hasBonus = topSum.value > 62;
     return PointValue(
-        type: PointTypes.BONUS, value: topSum.value > 62 ? 50 : 0);
+        type: PointTypes.BONUS, value: hasBonus ? 50 : 0, pristine: !hasBonus);
   }
 
-  PointValue get total {
-    int sum = [
-      this.ones,
-      this.twos,
-      this.threes,
-      this.fours,
-      this.fives,
-      this.sixes,
-      this.bonus,
-      this.topSum,
-      this.pair,
-      this.twoPairs,
-      this.trips,
-      this.fourOfAKind,
-      this.fullHouse,
-      this.smallStraight,
-      this.largeStraight,
-      this.chance,
-      this.yatzy
-    ].fold(0, (acc, pointValue) => acc + pointValue.value);
-    return PointValue(type: PointTypes.TOTAL, value: sum);
-  }
+  PointValue get total =>
+      [this.topSum, ..._bottomValues].reduce((acc, current) =>
+          PointValue(type: PointTypes.TOTAL, value: acc.value + current.value));
 
-  bool get completed {
-    // todo implement this check.
-    return false;
-  }
+  bool get completed => [
+        this.ones,
+        this.twos,
+        this.threes,
+        this.fours,
+        this.fives,
+        this.sixes,
+        this.pair,
+        this.twoPairs,
+        this.trips,
+        this.fourOfAKind,
+        this.fullHouse,
+        this.smallStraight,
+        this.largeStraight,
+        this.chance,
+        this.yatzy
+      ].every((pointValue) => !pointValue.pristine);
 
-  List<PointValue> get props {
-    return <PointValue>[
-      ones,
-      twos,
-      threes,
-      fours,
-      fives,
-      sixes,
-      topSum,
-      bonus,
-      pair,
-      twoPairs,
-      trips,
-      fourOfAKind,
-      fullHouse,
-      smallStraight,
-      largeStraight,
-      chance,
-      yatzy,
-      total
-    ];
-  }
+  bool get started => values.any((pointValue) => !pointValue.pristine);
+
+  List<PointValue> get _bottomValues => values.sublist(8, 16);
+
+  List<PointValue> get values => [
+        this.ones,
+        this.twos,
+        this.threes,
+        this.fours,
+        this.fives,
+        this.sixes,
+        this.bonus,
+        this.pair,
+        this.twoPairs,
+        this.trips,
+        this.fourOfAKind,
+        this.fullHouse,
+        this.smallStraight,
+        this.largeStraight,
+        this.chance,
+        this.yatzy
+      ];
+
+  List<PointValue> get props => <PointValue>[
+        ones,
+        twos,
+        threes,
+        fours,
+        fives,
+        sixes,
+        topSum,
+        bonus,
+        pair,
+        twoPairs,
+        trips,
+        fourOfAKind,
+        fullHouse,
+        smallStraight,
+        largeStraight,
+        chance,
+        yatzy,
+        total
+      ];
 
   @override
-  String toString() {
-    return '{ name: $name, id: $id, points: $props}';
-  }
+  String toString() => '{ name: $name, id: $id, points: $props}';
 }

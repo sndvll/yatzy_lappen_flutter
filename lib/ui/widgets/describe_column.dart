@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:yatzy_lappen/ui/utils/border_creator.dart';
 
+import '../utils/border_creator.dart';
 import '../../constants.dart';
 import 'cell.dart';
 

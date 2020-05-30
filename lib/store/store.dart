@@ -1,21 +1,38 @@
+import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
 import 'package:shortid/shortid.dart';
-import 'package:yatzy_lappen/model/models.dart';
 
+import '../model/models.dart';
+
+@immutable
 abstract class GameState {
-  List<Player> currentState;
-  List<List<Player>> previousStates;
+  final List<Player> currentState = [];
+  final List<List<Player>> previousStates = [];
+
+  bool get completed;
+  bool get started;
 }
 
 class InitialState implements GameState {
-  List<Player> currentState = [];
-  List<List<Player>> previousStates = [];
+  final List<Player> currentState = [];
+  final List<List<Player>> previousStates = [];
+  bool get completed => false;
+  bool get started => false;
 }
 
 class UpdatedState implements GameState {
-  List<Player> currentState;
-  List<List<Player>> previousStates;
-  UpdatedState(this.currentState, this.previousStates);
+  final List<Player> currentState;
+  final List<List<Player>> previousStates;
+
+  bool get completed =>
+      currentState.length > 0 &&
+      currentState.every((player) => player.completed);
+  bool get started =>
+      currentState.length > 0 && currentState.any((player) => player.started);
+
+  UpdatedState(this.currentState, this.previousStates) {
+    print(this.currentState.toString());
+  }
 }
 
 class AddPlayerAction {
@@ -41,7 +58,7 @@ final reducers = combineReducers<GameState>([
 ]);
 
 GameState _onUndo(GameState state, UndoAction action) =>
-    state.previousStates.length > 1
+    state.previousStates.length > 0
         ? UpdatedState(state.previousStates.removeLast(), state.previousStates)
         : state;
 
@@ -77,48 +94,29 @@ GameState _onEditPoint(GameState state, EditPointAction action) {
     state.currentState
   ];
   List<Player> newState = [...state.currentState];
-  newState[_getPlayerIndex(state.currentState, action.player)] =
-      _updatedPlayer(action.player, action.value);
+  Player newPlayer = _updatedPlayer(action.player, action.value);
+  newState[_getPlayerIndex(state.currentState, action.player)] = newPlayer;
 
   return UpdatedState(newState, previousStates);
 }
 
 int _getPlayerIndex(List<Player> players, Player player) =>
-    players.indexOf(player);
+    players.indexWhere((element) => element.id == player.id);
 
-Player _updatedPlayer(Player player, PointValue value) {
-  switch (value.type) {
-    case PointTypes.ONES:
-      return player.copyWith(ones: value);
-    case PointTypes.TWOS:
-      return player.copyWith(twos: value);
-    case PointTypes.THREES:
-      return player.copyWith(threes: value);
-    case PointTypes.FOURS:
-      return player.copyWith(fours: value);
-    case PointTypes.FIVES:
-      return player.copyWith(fives: value);
-    case PointTypes.SIXES:
-      return player.copyWith(sixes: value);
-    case PointTypes.PAIR:
-      return player.copyWith(pair: value);
-    case PointTypes.TWO_PAIRS:
-      return player.copyWith(twoPairs: value);
-    case PointTypes.TRIPS:
-      return player.copyWith(trips: value);
-    case PointTypes.FOUR_OF_A_KIND:
-      return player.copyWith(fourOfAKind: value);
-    case PointTypes.FULL_HOUSE:
-      return player.copyWith(fullHouse: value);
-    case PointTypes.SMALL_STRAIGHT:
-      return player.copyWith(smallStraight: value);
-    case PointTypes.LARGE_STRAIGHT:
-      return player.copyWith(largeStraight: value);
-    case PointTypes.CHANCE:
-      return player.copyWith(chance: value);
-    case PointTypes.YATZY:
-      return player.copyWith(yatzy: value);
-    default:
-      return player.copyWith();
-  }
-}
+Player _updatedPlayer(Player player, PointValue value) => {
+      PointTypes.ONES: player.copyWith(ones: value),
+      PointTypes.TWOS: player.copyWith(twos: value),
+      PointTypes.THREES: player.copyWith(threes: value),
+      PointTypes.FOURS: player.copyWith(fours: value),
+      PointTypes.FIVES: player.copyWith(fives: value),
+      PointTypes.SIXES: player.copyWith(sixes: value),
+      PointTypes.PAIR: player.copyWith(pair: value),
+      PointTypes.TWO_PAIRS: player.copyWith(twoPairs: value),
+      PointTypes.TRIPS: player.copyWith(trips: value),
+      PointTypes.FOUR_OF_A_KIND: player.copyWith(fourOfAKind: value),
+      PointTypes.FULL_HOUSE: player.copyWith(fullHouse: value),
+      PointTypes.SMALL_STRAIGHT: player.copyWith(smallStraight: value),
+      PointTypes.LARGE_STRAIGHT: player.copyWith(largeStraight: value),
+      PointTypes.CHANCE: player.copyWith(chance: value),
+      PointTypes.YATZY: player.copyWith(yatzy: value)
+    }[value.type];

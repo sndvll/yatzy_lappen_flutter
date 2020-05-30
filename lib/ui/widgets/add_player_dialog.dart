@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:yatzy_lappen/constants.dart';
-import 'package:yatzy_lappen/store/store.dart';
+
+import '../../constants.dart';
+import '../../store/store.dart';
 
 import 'buttons.dart';
 
 class AddPlayerDialog extends StatelessWidget {
   final _textEditingController = TextEditingController();
+
+  void _close(BuildContext context) {
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +43,12 @@ class AddPlayerDialog extends StatelessWidget {
                           return () {
                             store.dispatch(
                                 AddPlayerAction(_textEditingController.text));
-                            _textEditingController.clear();
+                            _close(context);
                           };
                         },
-                        builder: (context, callback) => CircularButton(
+                        builder: (context, callback) => CircularButton.icon(
                               backgroundColor: Colors.black,
-                              icon: Icon(Icons.add),
+                              icon: Icons.add,
                               onPressed: callback,
                             ))
                   ],

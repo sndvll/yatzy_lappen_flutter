@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:yatzy_lappen/store/store.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:yatzy_lappen/ui/ui.dart';
 
 import 'constants.dart';
+import 'store/store.dart';
+import 'ui/main_page.dart';
 
 void main() {
   runApp(App(

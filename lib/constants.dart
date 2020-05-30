@@ -1,4 +1,4 @@
-import 'package:yatzy_lappen/model/models.dart';
+import 'model/models.dart';
 
 class AppConstants {
   static const String TITLE = 'Yatzy Lappen';
@@ -10,6 +10,10 @@ class AppConstants {
   static const String BUTTON_ADD = 'Lägg till';
 
   static const String NAME = 'Namn';
+
+  static const String SNACKBAR_GOT = 'fick';
+  static const String SNACKBAR_POINTS_ON = 'poäng på';
+  static const String SCRATCHED = 'strök';
 
   static const String ONES = 'Ettor';
   static const String TWOS = 'Tvåor';
@@ -52,18 +56,17 @@ class AppConstants {
   };
 
   static const Map<PointTypes, List<int>> POSSIBLE_POINTS = {
-    PointTypes.ONES: [0, 1, 2, 3, 4, 5],
-    PointTypes.TWOS: [0, 2, 4, 6, 8, 10],
-    PointTypes.THREES: [0, 3, 6, 9, 12, 15],
-    PointTypes.FOURS: [0, 4, 8, 12, 16, 20],
-    PointTypes.FIVES: [0, 5, 10, 15, 20, 25],
-    PointTypes.SIXES: [0, 6, 12, 18, 24, 30],
-    PointTypes.PAIR: [0, 2, 4, 6, 8, 10, 12],
-    PointTypes.TWO_PAIRS: [0, 6, 8, 10, 12, 14, 16, 18, 20, 22],
-    PointTypes.TRIPS: [0, 3, 6, 9, 12, 15, 18],
-    PointTypes.FOUR_OF_A_KIND: [0, 4, 8, 12, 16, 20, 24],
+    PointTypes.ONES: [1, 2, 3, 4, 5],
+    PointTypes.TWOS: [2, 4, 6, 8, 10],
+    PointTypes.THREES: [3, 6, 9, 12, 15],
+    PointTypes.FOURS: [4, 8, 12, 16, 20],
+    PointTypes.FIVES: [5, 10, 15, 20, 25],
+    PointTypes.SIXES: [6, 12, 18, 24, 30],
+    PointTypes.PAIR: [2, 4, 6, 8, 10, 12],
+    PointTypes.TWO_PAIRS: [6, 8, 10, 12, 14, 16, 18, 20, 22],
+    PointTypes.TRIPS: [3, 6, 9, 12, 15, 18],
+    PointTypes.FOUR_OF_A_KIND: [4, 8, 12, 16, 20, 24],
     PointTypes.FULL_HOUSE: [
-      0,
       7,
       9,
       11,
@@ -83,10 +86,9 @@ class AppConstants {
       27,
       28
     ],
-    PointTypes.SMALL_STRAIGHT: [0, 15],
-    PointTypes.LARGE_STRAIGHT: [0, 20],
+    PointTypes.SMALL_STRAIGHT: [15],
+    PointTypes.LARGE_STRAIGHT: [20],
     PointTypes.CHANCE: [
-      0,
       5,
       6,
       7,
@@ -114,6 +116,6 @@ class AppConstants {
       29,
       30
     ],
-    PointTypes.YATZY: [0, 50],
+    PointTypes.YATZY: [50],
   };
 }

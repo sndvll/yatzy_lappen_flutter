@@ -1,16 +1,14 @@
 import 'package:flutter/widgets.dart';
+import 'package:yatzy_lappen/ui/utils/border_creator.dart';
 
-import '../utils/border_creator.dart';
 import '../../constants.dart';
 import 'cell.dart';
 
 class TypeColumn extends StatelessWidget {
-  List<Cell> _cells() {
-    return AppConstants.CELL_NAMES.values
-        .map((value) =>
-            Cell.type(value: value, bottomBorder: getBottomBorder(value)))
-        .toList();
-  }
+  List<Cell> _cells() => AppConstants.CELL_NAMES.values
+      .map((value) =>
+          Cell.type(value: value, bottomBorder: getBottomBorder(value)))
+      .toList();
 
   BorderCreator getBottomBorder(String value) {
     switch (value) {
@@ -27,16 +25,14 @@ class TypeColumn extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Cell.type(
-          value: AppConstants.NAME,
-          bottomBorder: BorderCreator.create(width: 1),
-          topBorder: BorderCreator.create(width: 2),
-        ),
-        ..._cells()
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Column(
+        children: [
+          Cell.type(
+            value: AppConstants.NAME,
+            bottomBorder: BorderCreator.create(width: 1),
+            topBorder: BorderCreator.create(width: 2),
+          ),
+          ..._cells()
+        ],
+      );
 }

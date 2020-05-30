@@ -1,4 +1,4 @@
-import 'model/models.dart';
+import 'model/points.dart';
 
 class AppConstants {
   static const String TITLE = 'Yatzy Lappen';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:yatzy_lappen/constants.dart';
+import 'package:yatzy_lappen/model/model.dart';
+import 'package:yatzy_lappen/ui/utils/border_creator.dart';
 
-import '../../model/models.dart';
-import '../utils/utils.dart';
 import 'add_point_dialog.dart';
 import 'cell.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:yatzy_lappen/model/model.dart';
+import 'package:yatzy_lappen/store/store.dart';
 
-import '../../model/models.dart';
-import '../../store/store.dart';
 import '../../constants.dart';
 import 'buttons.dart';
 

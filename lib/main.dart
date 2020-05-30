@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:yatzy_lappen/store/store.dart';
 
 import 'constants.dart';
-import 'store/store.dart';
 import 'ui/main_page.dart';
 
 void main() {
@@ -20,13 +20,11 @@ class App extends StatelessWidget {
   App({Key key, @required this.store, this.title}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return StoreProvider<GameState>(
-        store: store,
-        child: MaterialApp(
-          title: title,
-          debugShowCheckedModeBanner: false,
-          home: GamePage(title: title),
-        ));
-  }
+  Widget build(BuildContext context) => StoreProvider<GameState>(
+      store: store,
+      child: MaterialApp(
+        title: title,
+        debugShowCheckedModeBanner: false,
+        home: GamePage(title: title),
+      ));
 }

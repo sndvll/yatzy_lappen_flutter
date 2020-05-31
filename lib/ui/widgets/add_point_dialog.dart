@@ -87,7 +87,7 @@ class SetPointDialog extends StatelessWidget {
         Text(player.name, style: TextStyle(color: Colors.green))
       ]),
       content: Column(mainAxisSize: MainAxisSize.min, children: [
-        StoreConnector<GameState, DispatchPointCallback>(
+        StoreConnector<AppState, DispatchPointCallback>(
           converter: (store) {
             return (int value) {
               var v = PointValue.setPoint(type: type, value: value);
@@ -106,7 +106,7 @@ class SetPointDialog extends StatelessWidget {
                     icon: Icons.exit_to_app,
                     backgroundColor: Colors.black38,
                     onPressed: () => _close(context)),
-                StoreConnector<GameState, ButtonClickCallback>(
+                StoreConnector<AppState, ButtonClickCallback>(
                   converter: (store) {
                     return () {
                       var v = PointValue.scratch(type: type);

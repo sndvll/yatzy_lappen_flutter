@@ -1,11 +1,5 @@
 import 'package:yatzy_lappen/model/model.dart';
 
-import 'state.dart';
-
-GameState createUpdatedState(
-        List<Player> currentState, List<List<Player>> previousStates) =>
-    UpdatedState([...currentState], [...previousStates, currentState]);
-
 List<String> getNames(String name) =>
     name.contains(',') ? name.split(',') : [name];
 

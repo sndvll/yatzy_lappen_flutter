@@ -1,45 +1,48 @@
 import 'package:redux/redux.dart';
 import 'package:shortid/shortid.dart';
 import 'package:yatzy_lappen/model/model.dart';
+import 'package:yatzy_lappen/utils/logger.dart';
 
 import 'actions.dart';
 import 'state.dart';
 import '_utils.dart';
 
-final reducers = combineReducers<GameState>([
-  TypedReducer<GameState, AddPlayerAction>(_onAddPlayer),
-  TypedReducer<GameState, EditPointAction>(_onEditPoint),
-  TypedReducer<GameState, UndoAction>(_onUndo),
-  TypedReducer<GameState, NewGameAction>((state, action) => InitialState())
+final reducers = combineReducers<AppState>([
+  TypedReducer<AppState, AddPlayerAction>(_onAddPlayer),
+  TypedReducer<AppState, EditPointAction>(_onEditPoint),
+  TypedReducer<AppState, UndoAction>(_onUndo),
+  TypedReducer<AppState, NewGameAction>(
+      (state, action) => AppState(shortid.generate(), players: []))
 ]);
 
-GameState _onUndo(GameState state, UndoAction action) =>
-    state.previousStates.length > 0
-        ? UpdatedState(state.previousStates.removeLast(), state.previousStates)
-        : state;
+AppState _onUndo(AppState state, UndoAction action) {
+  logger.d('Undo state id ${state.id}');
+  if (AppState.hasPreviousStates) {
+    AppState.remove(state.id);
+    return AppState.getPreviousState(index: -1);
+  }
+  return AppState.getPreviousState();
+}
 
-GameState _onAddPlayer(GameState state, AddPlayerAction action) {
+AppState _onAddPlayer(AppState state, AddPlayerAction action) {
   if (action.name.length == 0) {
     return state;
   }
 
-  UpdatedState updatedState =
-      createUpdatedState(state.currentState, state.previousStates);
-
+  var players = [...state.players];
   getNames(action.name).forEach((name) {
-    updatedState.currentState
-        .add(Player(name: name.trim(), id: shortid.generate()));
+    players.add(Player(name: name.trim(), id: shortid.generate()));
   });
-
-  return updatedState;
+  logger.d('Players ${action.name.toString()} added to game');
+  return state.copyWith(players: [...players]);
 }
 
-GameState _onEditPoint(GameState state, EditPointAction action) {
-  UpdatedState updatedState =
-      createUpdatedState(state.currentState, state.previousStates);
-
-  updatedState.currentState[getPlayerIndex(state.currentState, action.player)] =
+AppState _onEditPoint(AppState state, EditPointAction action) {
+  var players = [...state.players];
+  players[getPlayerIndex(state.players, action.player)] =
       updatedPlayer(action.player, action.value);
 
-  return updatedState;
+  logger.d(
+      'Player ${action.player.name.toString()} got ${action.value.value} on ${action.value.type}');
+  return state.copyWith(players: players);
 }

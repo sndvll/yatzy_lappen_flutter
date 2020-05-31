@@ -32,20 +32,22 @@ class CircularButton extends StatelessWidget {
       this.disabledColor = Colors.grey});
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-      onTap: onPressed,
-      child: Container(
+  Widget build(BuildContext context) => Material(
+      child: Ink(
           width: 50,
           height: 50,
           decoration: BoxDecoration(
               color: backgroundColor, borderRadius: BorderRadius.circular(50)),
-          child: Center(
-              child: this.icon != null
-                  ? Icon(icon,
-                      color: this.onPressed != null ? color : disabledColor)
-                  : Text(text,
-                      style: TextStyle(
-                          color: this.onPressed != null
-                              ? color
-                              : disabledColor)))));
+          child: InkWell(
+              borderRadius: BorderRadius.circular(50),
+              onTap: onPressed,
+              child: Center(
+                  child: this.icon != null
+                      ? Icon(icon,
+                          color: this.onPressed != null ? color : disabledColor)
+                      : Text(text,
+                          style: TextStyle(
+                              color: this.onPressed != null
+                                  ? color
+                                  : disabledColor))))));
 }

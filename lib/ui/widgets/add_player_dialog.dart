@@ -29,14 +29,11 @@ class AddPlayerDialog extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      FlatButton(
-                        child: Text(AppConstants.BUTTON_CLOSE),
-                        color: Colors.black12,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      StoreConnector<GameState, ButtonClickCallback>(
+                      CircularButton.icon(
+                          icon: Icons.exit_to_app,
+                          backgroundColor: Colors.black38,
+                          onPressed: () => _close(context)),
+                      StoreConnector<AppState, ButtonClickCallback>(
                           converter: (store) {
                             return () {
                               store.dispatch(

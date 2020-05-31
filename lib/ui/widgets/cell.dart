@@ -54,14 +54,10 @@ class Cell extends StatelessWidget {
       this.rightBorder});
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: clickable ? () => callback(type) : null,
-        child: Container(
-          child: SizedBox(
-            width: width,
-            height: 30,
-            child: Center(child: Text(value)),
-          ),
+  Widget build(BuildContext context) => Material(
+      child: Ink(
+          width: width,
+          height: 30,
           decoration: BoxDecoration(
               color: color,
               border: Border(
@@ -69,6 +65,8 @@ class Cell extends StatelessWidget {
                   right: rightBorder,
                   bottom: bottomBorder,
                   left: leftBorder)),
-        ),
-      );
+          child: InkWell(
+            onTap: clickable ? () => callback(type) : null,
+            child: Center(child: Text(value)),
+          )));
 }

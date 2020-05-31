@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -161,5 +163,47 @@ class Player extends Equatable {
       ];
 
   @override
-  String toString() => '{ name: $name, id: $id, points: $props}';
+  String toString() => '{"name": "$name", "id": "$id", "points": $props}';
+
+  static Player fromJson(Map player) => Player(
+        id: player['id'],
+        name: player['name'],
+        ones: PointValue.fromJson(json.decode(player['ones'])),
+        twos: PointValue.fromJson(json.decode(player['twos'])),
+        threes: PointValue.fromJson(json.decode(player['threes'])),
+        fours: PointValue.fromJson(json.decode(player['fours'])),
+        fives: PointValue.fromJson(json.decode(player['fives'])),
+        sixes: PointValue.fromJson(json.decode(player['sixes'])),
+        pair: PointValue.fromJson(json.decode(player['pair'])),
+        twoPairs: PointValue.fromJson(json.decode(player['twoPairs'])),
+        trips: PointValue.fromJson(json.decode(player['trips'])),
+        fourOfAKind: PointValue.fromJson(json.decode(player['fourOfAKind'])),
+        fullHouse: PointValue.fromJson(json.decode(player['fullHouse'])),
+        smallStraight:
+            PointValue.fromJson(json.decode(player['smallStraight'])),
+        largeStraight:
+            PointValue.fromJson(json.decode(player['largeStraight'])),
+        chance: PointValue.fromJson(json.decode(player['chance'])),
+        yatzy: PointValue.fromJson(json.decode(player['yatzy'])),
+      );
+
+  dynamic get toJson => json.encode({
+        'name': name,
+        'id': id,
+        'ones': ones.toJson,
+        'twos': twos.toJson,
+        'threes': threes.toJson,
+        'fours': fours.toJson,
+        'fives': fives.toJson,
+        'sixes': sixes.toJson,
+        'pair': pair.toJson,
+        'twoPairs': twoPairs.toJson,
+        'trips': trips.toJson,
+        'fourOfAKind': fourOfAKind.toJson,
+        'fullHouse': fullHouse.toJson,
+        'smallStraight': smallStraight.toJson,
+        'largeStraight': largeStraight.toJson,
+        'chance': chance.toJson,
+        'yatzy': yatzy.toJson
+      });
 }

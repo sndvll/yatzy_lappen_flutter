@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -48,9 +50,21 @@ class PointValue extends Equatable {
       this.pristine = false});
 
   @override
-  String toString() {
-    return '{type: $type, value: $value, pristine: $pristine, scratched: $scratched}';
-  }
+  String toString() =>
+      '{"type": "$type", "value": $value, "pristine": $pristine, "scratched": $scratched}';
+
+  static PointValue fromJson(Map decoded) => PointValue(
+      type: PointTypes.values[decoded['type']],
+      value: decoded['value'],
+      pristine: decoded['pristine'],
+      scratched: decoded['scratched']);
+
+  dynamic get toJson => json.encode({
+        'type': type.index,
+        'value': value,
+        'pristine': pristine,
+        'scratched': scratched
+      });
 
   @override
   List<Object> get props => [type, value, pristine, scratched];

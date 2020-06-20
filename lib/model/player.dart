@@ -97,7 +97,7 @@ class Player extends Equatable {
   }
 
   PointValue get total =>
-      [this.topSum, ..._bottomValues].reduce((acc, current) =>
+      [this.topSum, this.bonus, ..._bottomValues].reduce((acc, current) =>
           PointValue(type: PointTypes.TOTAL, value: acc.value + current.value));
 
   bool get completed => [
